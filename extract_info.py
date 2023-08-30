@@ -56,5 +56,19 @@ def extract(input_path, output_path):
     
 
         
-    
+if __name__ == "__main__":
+    rectify, input_, output_ = sys.argv
+    # input_ = 'example/'
+    # output_ = 'result/'
+
+    if os.path.isfile(os.path.abspath(input_)):
+        input_path = input_
+        output_path = output_
+        extract(input_path, output_path)
+    elif os.path.isdir(input_) and os.path.isdir(output_):
+        input_dir = input_
+        output_dir = output_
+        extract_all(input_dir, output_dir)
+    else:
+        print("Parameters Error: invalid input or output.")
     
