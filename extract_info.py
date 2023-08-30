@@ -4,7 +4,7 @@ import cv2
 import sys
 
 def extract_all(input_dir, output_dir, detail=0):
-    reader = easyocr.Reader(['en'], detail=detail)
+    reader = easyocr.Reader(['en'])
     count = 0
     image_format = [".jpg", ".jpeg", ".bmp", ".png"]
     file_list = os.listdir(input_dir)
