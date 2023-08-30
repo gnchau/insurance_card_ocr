@@ -15,7 +15,8 @@ def load_model():
         model.load_state_dict(state)
         model.eval()
         model.to(device)
-    except:
+    except Exception as e:
+        print(e)
         print("Model Error: Model \'" + model_arch + "\' import failed, please check the model file.")
         sys.exit()
 
