@@ -394,7 +394,7 @@ def inference(input_path, output_path, trained_model, device):
         result = finetune(result, ratio)
         
         # increase contrast
-        result = cv2.convertScaleAbs(image, alpha=1.5, beta=0)
+        result = cv2.convertScaleAbs(result, alpha=1.5, beta=0)
 
         cv2.imwrite(output_path, result)
         print("Success! Output saved in " + os.path.abspath(output_path))
@@ -448,7 +448,7 @@ def inference_all(input_dir, output_dir, trained_model, device):
         try:
             result = four_point_transform(image, corners.reshape(4, 2))
             result = finetune(result, ratio)
-            result = cv2.convertScaleAbs(image, alpha=1.5, beta=0)
+            result = cv2.convertScaleAbs(result, alpha=1.5, beta=0)
 
             cv2.imwrite(out_path, result)
             print("Success! Output saved in " + os.path.abspath(out_path))
