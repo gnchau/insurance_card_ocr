@@ -3,8 +3,8 @@ import os
 import cv2
 import sys
 
-def extract_all(input_dir, output_dir):
-    reader = easyocr.Reader(['en'])
+def extract_all(input_dir, output_dir, detail=0):
+    reader = easyocr.Reader(['en'], detail=detail)
     count = 0
     image_format = [".jpg", ".jpeg", ".bmp", ".png"]
     file_list = os.listdir(input_dir)
@@ -34,8 +34,8 @@ def extract_all(input_dir, output_dir):
         
 
 
-def extract(input_path, output_path):
-    reader = easyocr.Reader(['en'])
+def extract(input_path, output_path, detail=0):
+    reader = easyocr.Reader(['en'], detail=detail)
     image_format = {".jpg", ".jpeg", ".bmp", ".png"}
     if os.path.isfile(input_path):
         if os.path.splitext(input_path)[1] not in image_format:
