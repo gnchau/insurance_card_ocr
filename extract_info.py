@@ -25,7 +25,7 @@ def extract_all(input_dir, output_dir, detail=0):
         out_path = os.path.join(output_dir, name + ".png")
         
         try:
-            result = reader.readtext(in_path)
+            result = reader.readtext(in_path, detail=detail)
             print(result)
         except:
             continue
@@ -35,7 +35,7 @@ def extract_all(input_dir, output_dir, detail=0):
 
 
 def extract(input_path, output_path, detail=0):
-    reader = easyocr.Reader(['en'], detail=detail)
+    reader = easyocr.Reader(['en'])
     image_format = {".jpg", ".jpeg", ".bmp", ".png"}
     if os.path.isfile(input_path):
         if os.path.splitext(input_path)[1] not in image_format:
@@ -49,7 +49,7 @@ def extract(input_path, output_path, detail=0):
     name = os.path.splitext(os.path.basename(input_path))[0]
 
     try:
-        result = reader.readtext(input_path)
+        result = reader.readtext(input_path, detail=detail)
         print(result)
     except:
         pass
