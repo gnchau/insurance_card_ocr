@@ -10,6 +10,7 @@ from skimage import exposure, img_as_ubyte
 from imutils.perspective import four_point_transform
 from itertools import combinations
 from torchvision import transforms
+from skimage.filters import threshold_local
 from load_model import load_model
 
 
@@ -350,6 +351,30 @@ def finetune(img, ratio):
     return img
 
 
+def bw_scanner(image):
+    return image
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    T = threshold_local(gray, 11, offset = 5, method = "gaussian")
+    return (gray > T).astype("uint8") * 255
+
+# trying various things to get better performance out of ocr
+def post_process(img):
+     # Convert BGR to HSV
+    #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # define range of black color in HSV
+    #lower_val = np.array([0,0,0])
+    #upper_val = np.array([182,182,182])
+
+    # Threshold the HSV image to get only black colors
+    #mask = cv2.inRange(hsv, lower_val, upper_val)
+
+    # invert mask to get black symbols on white background
+    #mask_inv = cv2.bitwise_not(mask)
+    #return mask_inv
+    return img
+
+
 """
 Func: Inference
 """
@@ -394,7 +419,7 @@ def inference(input_path, output_path, trained_model, device):
         result = finetune(result, ratio)
         
         # increase contrast
-        result = cv2.convertScaleAbs(result, alpha=1.5, beta=0)
+        result = post_process(result)
 
         cv2.imwrite(output_path, result)
         print("Success! Output saved in " + os.path.abspath(output_path))
@@ -448,12 +473,14 @@ def inference_all(input_dir, output_dir, trained_model, device):
         try:
             result = four_point_transform(image, corners.reshape(4, 2))
             result = finetune(result, ratio)
-            result = cv2.convertScaleAbs(result, alpha=1.5, beta=0)
+
+            result = post_process(result)
 
             cv2.imwrite(out_path, result)
             print("Success! Output saved in " + os.path.abspath(out_path))
             count = count + 1
-        except:
+        except Exception as e:
+            print(e)
             print("Failed. {} could not be rectified :(".format(file_list[i]))
 
     print("Done! {}/{} success.".format(count, len(file_list)))

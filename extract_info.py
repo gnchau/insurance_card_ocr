@@ -26,7 +26,9 @@ def extract_all(input_dir, output_dir, detail=0):
         
         try:
             result = reader.readtext(in_path, detail=detail)
-            print(result)
+
+            # cut off so you can share
+            print(result[:3])
         except:
             continue
 
@@ -50,7 +52,7 @@ def extract(input_path, output_path, detail=0):
 
     try:
         result = reader.readtext(input_path, detail=detail)
-        print(result)
+        print(result[:3])
     except:
         pass
     
