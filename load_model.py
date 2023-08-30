@@ -1,14 +1,16 @@
 import sys
 import torch
+import os
 from models import get_model
 from collections import OrderedDict
 
 model_arch = 'UNetRNN'
-model_path = "CRDN1000.pkl"
+script_directory = os.path.dirname(os.path.abspath(sys.argv[0]))
+model_path = f"{script_directory}/CRDN1000.pkl"
 
 
 def load_model():
-    device = torch.device("cuda:{}".format(0) if torch.cuda.is_available() else "cpu")
+    #device = torch.device("cuda:{}".format(0) if torch.cuda.is_available() else "cpu")
     try:
         model = get_model({'arch': model_arch}, n_classes=2).to(device)
         state = convert_state_dict(torch.load(model_path, map_location=device)["model_state"])
